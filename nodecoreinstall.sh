@@ -1,37 +1,5 @@
 #!/usr/bin/env bash
 #
-# Check system to make sure it can support running NodeCore
-#
-echo "Checking to see if your system meets the minimum requirements for NodeCore to run..."
-TOTALMEM=$(cat /proc/meminfo | head -n 1 | tr -d -c 0-9)
-TOTALMEM=$(($TOTALMEM/1000000))
-echo System Memory: $TOTALMEM GB
-TOTALCORES=$(nproc)
-echo System Cores: $TOTALCORES
-TOTALDISK=$(df -H "$HOME" | awk 'NR==2 { print $2 }' | tr -d -c 0-9)
-echo Disk Size: $TOTALDISK GB
-FREESPACE=$(df -H "$HOME" | awk 'NR==2 { print $2 }' | tr -d -c 0-9)
-echo Free Disk Space: $FREESPACE GB
-if [ $TOTALMEM -lt 4 ]
-then
-    echo "Sorry, but this system needs at least 4GB of RAM for NodeCore to run.  Exiting Install..."
-    exit
-elif [ $TOTALCORES -lt 2 ]
-then
-    echo "Sorry, but this system needs at least 2 cores for NodeCore to run.  Exiting Install..."
-    exit
-elif [ $TOTALDISK -lt 50 ]
-then
-    echo "Sorry, but this system needs at least 50GB total disk space for NodeCore to run.  Exiting Install..."
-    exit
-elif [ $FREESPACE -lt 15 ]
-then
-    echo "Sorry, but this system needs at least 15GB free disk space for NodeCore to run.  Exiting Install..."
-    exit
-else
-    echo "Your system is suitable, continuing installation of NodeCore..."
-fi
-#
 # Install Java:
 #
 echo "Installing Java if needed..."
@@ -102,4 +70,3 @@ tar xvf $NODECORE
 cd $NODECORE_DIR
 cd ../bin
 chmod +x nodecore
-echo "Starting NodeCore..."
