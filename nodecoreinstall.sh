@@ -49,24 +49,3 @@ if [ "" == "$PKG_OK" ]; then
     echo "No screen. Setting up screen."
     sudo apt-get install screen -qq
 fi
-#
-# Get url for latest nodecore version
-#
-LATEST_NODECORE=`curl -s https://explore.veriblock.org/api/stats/download | jq -r .nodecore_all_tar`
-NODECORE="$(cut -d'/' -f9 <<<$LATEST_NODECORE)"
-NODECORE_ALL_DIR="$(echo "$NODECORE" | cut -d'.' -f1-3)"
-NODECORE_DIR="$(echo "$NODECORE" | cut -d'-' -f2,4 | cut -d'.' -f1-3)"
-#
-echo "Creating directory for latest release..."
-mkdir $NODECORE_ALL_DIR
-cd $NODECORE_ALL_DIR
-#
-# Download latest version of nodecore & bootstrap
-#
-echo "Downloading $LATEST_NODECORE..."
-wget -q --show-progress $LATEST_NODECORE
-echo "Extracting $NODECORE..."
-tar xvf $NODECORE
-cd $NODECORE_DIR
-cd ../bin
-chmod +x nodecore
